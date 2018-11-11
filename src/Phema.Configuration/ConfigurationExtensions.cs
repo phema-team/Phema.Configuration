@@ -9,20 +9,17 @@ namespace Phema.Configuration
 {
 	public static class ConfigurationExtensions
 	{
-		public static IWebHostBuilder AddConfiguration<TConfiguration>(this IWebHostBuilder builder)
-			where TConfiguration : IConfiguration, new()
+		public static IWebHostBuilder UseConfiguration<TConfiguration>(this IWebHostBuilder builder)
+			where TConfiguration : IConfiguration
 		{
-			builder.ConfigureAppConfiguration((context, config) =>
+			return builder.ConfigureAppConfiguration((context, config) =>
 			{
-				builder.ConfigureServices(services =>
-				{
-					var configuration = new TConfiguration();
-					context.Configuration.Bind(configuration);
-					RegisterRecursive(services, configuration);
-				});
+				builder.ConfigureServices(
+					services =>
+						RegisterRecursive(services, context.Configuration.Get<TConfiguration>(
+							options => 
+								options.BindNonPublicProperties = true)));
 			});
-
-			return builder;
 		}
 
 		private static void RegisterRecursive(IServiceCollection services, IConfiguration configuration)
@@ -41,7 +38,8 @@ namespace Phema.Configuration
 				.GetProperties(BindingFlags.Instance | BindingFlags.Public)
 				.Where(x => x.CanRead)
 				.Where(x => typeof(IConfiguration).IsAssignableFrom(x.PropertyType))
-				.Select(x => (IConfiguration)x.GetValue(configuration));
+				.Select(x => (IConfiguration)x.GetValue(configuration))
+				.Where(x => x != null);
 		}
 	}
 }

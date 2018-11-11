@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1F042CAC-CA3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phema.Configuration", "src\Phema.Configuration\Phema.Configuration.csproj", "{5FA2EBDE-907D-4E9C-A164-6BD24F37E761}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phema.Configuration.Tests", "src\Phema.Configuration.Tests\Phema.Configuration.Tests.csproj", "{86B90EF2-38BF-4B16-9499-7B0B1EB2549C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,8 +34,21 @@ Global
 		{5FA2EBDE-907D-4E9C-A164-6BD24F37E761}.Release|x64.Build.0 = Release|Any CPU
 		{5FA2EBDE-907D-4E9C-A164-6BD24F37E761}.Release|x86.ActiveCfg = Release|Any CPU
 		{5FA2EBDE-907D-4E9C-A164-6BD24F37E761}.Release|x86.Build.0 = Release|Any CPU
+		{86B90EF2-38BF-4B16-9499-7B0B1EB2549C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86B90EF2-38BF-4B16-9499-7B0B1EB2549C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86B90EF2-38BF-4B16-9499-7B0B1EB2549C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{86B90EF2-38BF-4B16-9499-7B0B1EB2549C}.Debug|x64.Build.0 = Debug|Any CPU
+		{86B90EF2-38BF-4B16-9499-7B0B1EB2549C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{86B90EF2-38BF-4B16-9499-7B0B1EB2549C}.Debug|x86.Build.0 = Debug|Any CPU
+		{86B90EF2-38BF-4B16-9499-7B0B1EB2549C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86B90EF2-38BF-4B16-9499-7B0B1EB2549C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86B90EF2-38BF-4B16-9499-7B0B1EB2549C}.Release|x64.ActiveCfg = Release|Any CPU
+		{86B90EF2-38BF-4B16-9499-7B0B1EB2549C}.Release|x64.Build.0 = Release|Any CPU
+		{86B90EF2-38BF-4B16-9499-7B0B1EB2549C}.Release|x86.ActiveCfg = Release|Any CPU
+		{86B90EF2-38BF-4B16-9499-7B0B1EB2549C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5FA2EBDE-907D-4E9C-A164-6BD24F37E761} = {1F042CAC-CA31-4B9F-B4EC-0571B26AB302}
+		{86B90EF2-38BF-4B16-9499-7B0B1EB2549C} = {1F042CAC-CA31-4B9F-B4EC-0571B26AB302}
 	EndGlobalSection
 EndGlobal
