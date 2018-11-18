@@ -10,7 +10,6 @@ namespace Phema.Configuration
 	public static class ConfigurationExtensions
 	{
 		public static IWebHostBuilder UseConfiguration<TConfiguration>(this IWebHostBuilder builder)
-			where TConfiguration : IConfiguration
 		{
 			return builder.ConfigureAppConfiguration((context, config) =>
 			{
@@ -22,7 +21,7 @@ namespace Phema.Configuration
 			});
 		}
 
-		private static void RegisterRecursive(IServiceCollection services, IConfiguration configuration)
+		private static void RegisterRecursive(IServiceCollection services, object configuration)
 		{
 			services.AddSingleton(configuration.GetType(), configuration);
 
@@ -32,13 +31,14 @@ namespace Phema.Configuration
 			}
 		}
 
-		private static IEnumerable<IConfiguration> GetInnerConfigurations(IConfiguration configuration)
+		internal static IEnumerable<object> GetInnerConfigurations(object configuration)
 		{
 			return configuration.GetType()
 				.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-				.Where(x => x.CanRead)
-				.Where(x => typeof(IConfiguration).IsAssignableFrom(x.PropertyType))
-				.Select(x => (IConfiguration)x.GetValue(configuration))
+				.Where(property => property.CanRead)
+				.Where(property => property.IsDefined(typeof(ConfigurationAttribute)) 
+					|| property.PropertyType.IsDefined(typeof(ConfigurationAttribute)))
+				.Select(property => property.GetValue(configuration))
 				.Where(x => x != null);
 		}
 	}
