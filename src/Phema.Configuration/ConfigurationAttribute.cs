@@ -1,7 +1,4 @@
 using System;
-using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("Phema.Configuration.Tests")]
 
 namespace Phema.Configuration
 {
