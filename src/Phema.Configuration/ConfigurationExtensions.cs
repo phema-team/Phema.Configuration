@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Phema.Configuration
 {
@@ -23,7 +25,15 @@ namespace Phema.Configuration
 
 		private static void RegisterRecursive(IServiceCollection services, object configuration)
 		{
-			services.AddSingleton(configuration.GetType(), configuration);
+			var type = configuration.GetType();
+			
+			var serviceType = typeof(IOptions<>).MakeGenericType(type);
+
+			var instance = Activator.CreateInstance(
+				typeof(OptionsWrapper<>).MakeGenericType(type),
+				configuration);
+			
+			services.AddSingleton(serviceType, instance);
 
 			foreach (var innerConfiguration in GetInnerConfigurations(configuration))
 			{

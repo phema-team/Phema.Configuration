@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Xunit;
 
 namespace Phema.Configuration.Tests
@@ -59,15 +60,15 @@ namespace Phema.Configuration.Tests
 				.Configure(app => {})
 				.Build();
 
-			var root = host.Services.GetRequiredService<RootConfiguration>();
-			var child = host.Services.GetRequiredService<ChildConfiguration>();
-			var property = host.Services.GetRequiredService<PropertyConfiguration>();
-			var non = host.Services.GetService<NoneConfiguration>();
+			var root = host.Services.GetRequiredService<IOptions<RootConfiguration>>().Value;
+			var child = host.Services.GetRequiredService<IOptions<ChildConfiguration>>().Value;
+			var property = host.Services.GetRequiredService<IOptions<PropertyConfiguration>>().Value;
+			var non = host.Services.GetService<IOptions<NoneConfiguration>>().Value;
 			
 			Assert.NotNull(root);
 			Assert.NotNull(child);
 			Assert.NotNull(property);
-			Assert.Null(non);
+			Assert.NotNull(non);
 			
 			Assert.Equal("RootName", root.Name);
 			Assert.Equal(10, root.Age);
@@ -80,6 +81,8 @@ namespace Phema.Configuration.Tests
 			
 			Assert.NotNull(root.None);
 			Assert.Equal("Address", root.None.Address);
+			
+			Assert.Null(non.Address);
 		}
 
 		[Fact]
