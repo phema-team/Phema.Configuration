@@ -2,10 +2,11 @@
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
+
+using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace Phema.Configuration
 {
