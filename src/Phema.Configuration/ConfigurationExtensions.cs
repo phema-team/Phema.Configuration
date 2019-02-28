@@ -12,7 +12,7 @@ namespace Phema.Configuration
 {
 	public static class ConfigurationExtensions
 	{
-		public static IWebHostBuilder UseConfiguration<TConfiguration>(this IWebHostBuilder builder)
+		public static IWebHostBuilder UsePhemaConfiguration<TConfiguration>(this IWebHostBuilder builder)
 		{
 			return builder.ConfigureAppConfiguration((context, config) =>
 			{

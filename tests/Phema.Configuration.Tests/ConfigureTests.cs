@@ -25,7 +25,7 @@ namespace Phema.Configuration.Tests
 							["Name"] = "Sarah",
 						})
 						.Build())
-				.UseConfiguration<RootConfiguration>()
+				.UsePhemaConfiguration<RootConfiguration>()
 				.ConfigureServices(services => services.Configure<Configuration>(c => c.Name = "John"))
 				.Configure(app => {})
 				.Build();
@@ -47,7 +47,7 @@ namespace Phema.Configuration.Tests
 							["Name"] = "Sarah",
 						})
 						.Build())
-				.UseConfiguration<RootConfiguration>()
+				.UsePhemaConfiguration<RootConfiguration>()
 				.Configure(app => {})
 				.Build();
 
