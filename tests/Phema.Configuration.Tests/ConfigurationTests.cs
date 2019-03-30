@@ -56,7 +56,7 @@ namespace Phema.Configuration.Tests
 			
 			var host = new WebHostBuilder()
 				.UseConfiguration(configuration)
-				.UsePhemaConfiguration<RootConfiguration>()
+				.UseConfiguration<RootConfiguration>()
 				.Configure(app => {})
 				.Build();
 

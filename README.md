@@ -1,14 +1,34 @@
 # Phema.Configuration
-C# lightweight configuration map wrapper
 
-- [x] Extensions
-- [x] Tests
+[![Nuget](https://img.shields.io/nuget/v/Phema.Configuration.svg)](https://www.nuget.org/packages/Phema.Configuration)
 
-# Usage
+C# strongly typed `IConfiguration` wrapper
+
+## Usage
+
 ```csharp
+[Configuration]
+public class RootConfiguration
+{
+  public InnerConfiguration Inner { get; set; }
+}
+
+[Configuration]
+public class InnerConfiguration
+{
+}
+
+// Add
 WebHost.CreateDefaultBuilder<Startup>()
-  .UseConfiguration<TestConfiguration>()
+  .UseConfiguration<RootConfiguration>()
   .Build();
+
+// Get
+var root = provider.GetRequiredService<IOptions<RootConfiguration>>().Value;
+
+var inner = provider.GetRequiredService<IOptions<InnerConfiguration>>().Value;
+
+Assert.Equal(root.Inner, inner);
 ```
 
 - Maps `IConfiguration` from `Microsoft.Extensions.Configuration` to strongly typed configuration
