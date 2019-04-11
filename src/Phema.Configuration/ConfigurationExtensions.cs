@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +20,25 @@ namespace Phema.Configuration
 					context.Configuration.Get<TConfiguration>(
 						options => options.BindNonPublicProperties = true));
 			});
+		}
+
+		public static IWebHostBuilder UseConfiguration<TConfiguration>(this IWebHostBuilder builder)
+		{
+			return builder.ConfigureServices((context, services) =>
+			{
+				RegisterRecursive(services,
+					context.Configuration.Get<TConfiguration>(
+						options => options.BindNonPublicProperties = true));
+			});
+		}
+
+		public static IWebHostBuilder UseConfigurationStartup<TStartup>(this IWebHostBuilder builder)
+			where TStartup : class, IStartup
+		{
+			var name = typeof(TStartup).GetTypeInfo().Assembly.GetName().Name;
+
+			return builder.UseSetting(WebHostDefaults.StartupAssemblyKey, name)
+				.ConfigureServices(services => services.AddSingleton<IStartup, TStartup>());
 		}
 
 		private static void RegisterRecursive(IServiceCollection services, object configuration)

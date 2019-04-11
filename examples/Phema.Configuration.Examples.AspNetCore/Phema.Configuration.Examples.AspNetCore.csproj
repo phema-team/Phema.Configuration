@@ -5,6 +5,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="Properties\launchSettings.json" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <ProjectReference Include="..\..\src\Phema.Configuration\Phema.Configuration.csproj" />
 	</ItemGroup>
 

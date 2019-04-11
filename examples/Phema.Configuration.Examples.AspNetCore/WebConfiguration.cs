@@ -1,4 +1,4 @@
-namespace Phema.Configuration.Example
+namespace Phema.Configuration.Examples.AspNetCore
 {
 	[Configuration]
 	public class WebConfiguration

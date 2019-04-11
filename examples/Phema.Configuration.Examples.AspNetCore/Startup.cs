@@ -1,12 +1,13 @@
 using System;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace Phema.Configuration.Example
+namespace Phema.Configuration.Examples.AspNetCore
 {
-	public class Startup
+	public class Startup : IStartup
 	{
 		private readonly WebConfiguration configuration;
 
@@ -15,8 +16,9 @@ namespace Phema.Configuration.Example
 			this.configuration = configuration.Value;
 		}
 
-		public void ConfigureServices(IServiceCollection services)
+		public IServiceProvider ConfigureServices(IServiceCollection services)
 		{
+			return services.BuildServiceProvider();
 		}
 
 		public void Configure(IApplicationBuilder app)
