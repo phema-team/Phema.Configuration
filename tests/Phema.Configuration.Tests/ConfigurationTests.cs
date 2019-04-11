@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Xunit;
 
@@ -43,21 +43,17 @@ namespace Phema.Configuration.Tests
 		[Fact]
 		public void AddsConfiguration()
 		{
-			var configuration = new ConfigurationBuilder()
-				.AddInMemoryCollection(new Dictionary<string, string>
-				{
-					["Name"] = "RootName",
-					["Age"] = "10",
-					["Child:Name"] = "Test",
-					["Property:Age"] = "12",
-					["None:Address"] = "Address"
-				})
-				.Build();
-			
-			var host = new WebHostBuilder()
-				.UseConfiguration(configuration)
+			var host = new HostBuilder()
+				.ConfigureAppConfiguration((c, b) =>
+					b.AddInMemoryCollection(new Dictionary<string, string>
+						{
+							["Name"] = "RootName",
+							["Age"] = "10",
+							["Child:Name"] = "Test",
+							["Property:Age"] = "12",
+							["None:Address"] = "Address"
+						}))
 				.UseConfiguration<RootConfiguration>()
-				.Configure(app => {})
 				.Build();
 
 			var root = host.Services.GetRequiredService<IOptions<RootConfiguration>>().Value;

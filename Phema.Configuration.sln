@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{79CF7141
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phema.Configuration.Tests", "tests\Phema.Configuration.Tests\Phema.Configuration.Tests.csproj", "{3D89DCC1-4741-4524-B8E3-BF7AAAC775E0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{25313F40-D7DD-4717-96D8-F50BFFB4E0B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phema.Configuration.Example", "examples\Phema.Configuration.Example\Phema.Configuration.Example.csproj", "{6C68BCC8-CF9E-4697-A595-BA1133F1A7BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,9 +52,22 @@ Global
 		{3D89DCC1-4741-4524-B8E3-BF7AAAC775E0}.Release|x64.Build.0 = Release|Any CPU
 		{3D89DCC1-4741-4524-B8E3-BF7AAAC775E0}.Release|x86.ActiveCfg = Release|Any CPU
 		{3D89DCC1-4741-4524-B8E3-BF7AAAC775E0}.Release|x86.Build.0 = Release|Any CPU
+		{6C68BCC8-CF9E-4697-A595-BA1133F1A7BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C68BCC8-CF9E-4697-A595-BA1133F1A7BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C68BCC8-CF9E-4697-A595-BA1133F1A7BA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6C68BCC8-CF9E-4697-A595-BA1133F1A7BA}.Debug|x64.Build.0 = Debug|Any CPU
+		{6C68BCC8-CF9E-4697-A595-BA1133F1A7BA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6C68BCC8-CF9E-4697-A595-BA1133F1A7BA}.Debug|x86.Build.0 = Debug|Any CPU
+		{6C68BCC8-CF9E-4697-A595-BA1133F1A7BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C68BCC8-CF9E-4697-A595-BA1133F1A7BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C68BCC8-CF9E-4697-A595-BA1133F1A7BA}.Release|x64.ActiveCfg = Release|Any CPU
+		{6C68BCC8-CF9E-4697-A595-BA1133F1A7BA}.Release|x64.Build.0 = Release|Any CPU
+		{6C68BCC8-CF9E-4697-A595-BA1133F1A7BA}.Release|x86.ActiveCfg = Release|Any CPU
+		{6C68BCC8-CF9E-4697-A595-BA1133F1A7BA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5FA2EBDE-907D-4E9C-A164-6BD24F37E761} = {1F042CAC-CA31-4B9F-B4EC-0571B26AB302}
 		{3D89DCC1-4741-4524-B8E3-BF7AAAC775E0} = {79CF7141-2F01-4751-83B4-8F31847563D7}
+		{6C68BCC8-CF9E-4697-A595-BA1133F1A7BA} = {25313F40-D7DD-4717-96D8-F50BFFB4E0B4}
 	EndGlobalSection
 EndGlobal

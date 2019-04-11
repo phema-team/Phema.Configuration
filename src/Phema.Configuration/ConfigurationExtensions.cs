@@ -2,23 +2,22 @@
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Phema.Configuration
 {
 	public static class ConfigurationExtensions
 	{
-		public static IWebHostBuilder UseConfiguration<TConfiguration>(this IWebHostBuilder builder)
+		public static IHostBuilder UseConfiguration<TConfiguration>(this IHostBuilder builder)
 		{
-			return builder.ConfigureAppConfiguration((context, config) =>
+			return builder.ConfigureServices((context, services) =>
 			{
-				builder.ConfigureServices(services =>
-					RegisterRecursive(services,
-						context.Configuration.Get<TConfiguration>(
-							options => options.BindNonPublicProperties = true)));
+				RegisterRecursive(services,
+					context.Configuration.Get<TConfiguration>(
+						options => options.BindNonPublicProperties = true));
 			});
 		}
 
