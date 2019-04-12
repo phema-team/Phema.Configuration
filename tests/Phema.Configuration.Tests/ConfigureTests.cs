@@ -23,7 +23,10 @@ namespace Phema.Configuration.Tests
 					{
 						["Name"] = "Sarah",
 					}))
-				.UseConfiguration<RootConfiguration>()
+				.ConfigureServices((context, services) =>
+				{
+					services.AddConfiguration<Configuration>(context.Configuration);
+				})
 				.ConfigureServices(services => services.Configure<Configuration>(c => c.Name = "John"))
 				.Build();
 
@@ -42,7 +45,7 @@ namespace Phema.Configuration.Tests
 					{
 						["Name"] = "Sarah",
 					}))
-				.UseConfiguration<RootConfiguration>()
+				.ConfigureServices((context, services) => services.AddConfiguration<Configuration>(context.Configuration))
 				.Build();
 
 			var configuration = host.Services.GetRequiredService<IOptions<Configuration>>().Value;

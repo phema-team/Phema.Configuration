@@ -2,77 +2,63 @@
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Phema.Configuration
 {
 	public static class ConfigurationExtensions
 	{
-		public static IHostBuilder UseConfiguration<TConfiguration>(this IHostBuilder builder)
+		/// <summary>
+		/// Add all options in configuration tree and return <see cref="TConfiguration"/>
+		/// </summary>
+		public static TConfiguration AddConfiguration<TConfiguration>(
+			this IServiceCollection services,
+			IConfiguration configuration,
+			Action<BinderOptions> binder = null)
 		{
-			return builder.ConfigureServices((context, services) =>
-			{
-				RegisterRecursive(services,
-					context.Configuration.Get<TConfiguration>(
-						options => options.BindNonPublicProperties = true));
-			});
+			RegisterRecursive(services, configuration, binder, typeof(TConfiguration));
+
+			return configuration.Get<TConfiguration>();
 		}
 
-		public static IWebHostBuilder UseConfiguration<TConfiguration>(this IWebHostBuilder builder)
+		private static void RegisterRecursive(
+			IServiceCollection services,
+			IConfiguration configuration,
+			Action<BinderOptions> binder,
+			Type type)
 		{
-			return builder.ConfigureServices((context, services) =>
+			RegisterConfigureOptions(services, configuration, binder, type);
+
+			foreach (var (name, property) in GetInnerConfigurationProperties(type))
 			{
-				RegisterRecursive(services,
-					context.Configuration.Get<TConfiguration>(
-						options => options.BindNonPublicProperties = true));
-			});
-		}
-
-		public static IWebHostBuilder UseConfigurationStartup<TStartup>(this IWebHostBuilder builder)
-			where TStartup : class, IStartup
-		{
-			var name = typeof(TStartup).GetTypeInfo().Assembly.GetName().Name;
-
-			return builder.UseSetting(WebHostDefaults.StartupAssemblyKey, name)
-				.ConfigureServices(services => services.AddSingleton<IStartup, TStartup>());
-		}
-
-		private static void RegisterRecursive(IServiceCollection services, object configuration)
-		{
-			RegisterOptions(services, configuration);
-
-			foreach (var innerConfiguration in GetInnerConfigurations(configuration))
-			{
-				RegisterRecursive(services, innerConfiguration);
+				RegisterRecursive(services, configuration.GetSection(name), binder, property);
 			}
 		}
 
-		private static void RegisterOptions(IServiceCollection services, object configuration)
+		private static void RegisterConfigureOptions(
+			IServiceCollection services,
+			IConfiguration configuration,
+			Action<BinderOptions> binder,
+			Type type)
 		{
-			var type = configuration.GetType();
+			var serviceType = typeof(IConfigureOptions<>).MakeGenericType(type);
+			var optionsType = typeof(ConfigurationConfigureOptions<>).MakeGenericType(type);
 
-			var serviceType = typeof(IOptions<>).MakeGenericType(type);
+			var configureOptions = Activator.CreateInstance(optionsType, configuration, binder);
 
-			var instance = Activator.CreateInstance(
-				typeof(OptionsWrapper<>).MakeGenericType(type),
-				configuration);
-
-			services.AddSingleton(serviceType, instance);
+			services.TryAddSingleton(serviceType, sp => configureOptions);
 		}
 
-		internal static IEnumerable<object> GetInnerConfigurations(object configuration)
+		private static IEnumerable<(string, Type)> GetInnerConfigurationProperties(IReflect type)
 		{
-			return configuration.GetType()
-				.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+			return type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
 				.Where(property => property.CanRead)
 				.Where(property => property.IsDefined(typeof(ConfigurationAttribute))
 					|| property.PropertyType.IsDefined(typeof(ConfigurationAttribute)))
-				.Select(property => property.GetValue(configuration))
-				.Where(x => x != null);
+				.Select(property => (property.Name, property.PropertyType));
 		}
 	}
 }

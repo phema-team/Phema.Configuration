@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace Phema.Configuration.Examples.AspNetCore
 {
@@ -10,8 +10,8 @@ namespace Phema.Configuration.Examples.AspNetCore
 			CreateHostBuilder(args).Build().Run();
 		}
 
-		public static IWebHostBuilder CreateHostBuilder(string[] args) =>
-			WebHost.CreateDefaultBuilder<Startup>(args)
-				.UseConfiguration<WebConfiguration>();
+		public static IHostBuilder CreateHostBuilder(string[] args) =>
+			Host.CreateDefaultBuilder(args)
+				.ConfigureWebHostDefaults(builder => builder.UseStartup<Startup>());
 	}
 }

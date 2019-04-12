@@ -53,7 +53,8 @@ namespace Phema.Configuration.Tests
 							["Property:Age"] = "12",
 							["None:Address"] = "Address"
 						}))
-				.UseConfiguration<RootConfiguration>()
+				.ConfigureServices((context, services) =>
+					services.AddConfiguration<RootConfiguration>(context.Configuration))
 				.Build();
 
 			var root = host.Services.GetRequiredService<IOptions<RootConfiguration>>().Value;
@@ -68,72 +69,15 @@ namespace Phema.Configuration.Tests
 			
 			Assert.Equal("RootName", root.Name);
 			Assert.Equal(10, root.Age);
-			Assert.Equal(child, root.Child);
 			
 			Assert.Equal("Test", child.Name);
 			
-			Assert.Equal(property, root.Property);
 			Assert.Equal(12, property.Age);
 			
 			Assert.NotNull(root.None);
 			Assert.Equal("Address", root.None.Address);
 			
 			Assert.Null(non.Address);
-		}
-
-		[Fact]
-		public void ResolveRootEmpty()
-		{
-			var configurations = ConfigurationExtensions.GetInnerConfigurations(new RootConfiguration());
-			
-			Assert.Empty(configurations);
-		}
-		
-		[Fact]
-		public void ResolveRootProperty()
-		{
-			var configurations = ConfigurationExtensions.GetInnerConfigurations(new RootConfiguration
-			{
-				Property = new PropertyConfiguration()
-			});
-			
-			Assert.IsType<PropertyConfiguration>(Assert.Single(configurations));
-		}
-		
-		[Fact]
-		public void ResolveRootChild()
-		{
-			var configurations = ConfigurationExtensions.GetInnerConfigurations(new RootConfiguration
-			{
-				Child = new ChildConfiguration()
-			});
-			
-			Assert.IsType<ChildConfiguration>(Assert.Single(configurations));
-		}
-		
-		[Fact]
-		public void ResolveRootChildAndProperty()
-		{
-			var configurations = ConfigurationExtensions.GetInnerConfigurations(new RootConfiguration
-			{
-				Child = new ChildConfiguration(),
-				Property = new PropertyConfiguration()
-			});
-			
-			Assert.Collection(configurations,
-				c => Assert.IsType<ChildConfiguration>(c),
-				c => Assert.IsType<PropertyConfiguration>(c));
-		}
-		
-		[Fact]
-		public void ResolveRootNon()
-		{
-			var configurations = ConfigurationExtensions.GetInnerConfigurations(new RootConfiguration
-			{
-				None = new NoneConfiguration()
-			});
-			
-			Assert.Empty(configurations);
 		}
 	}
 }

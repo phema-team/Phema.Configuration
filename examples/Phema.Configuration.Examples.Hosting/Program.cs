@@ -9,8 +9,9 @@ namespace Phema.Configuration.Examples.Hosting
 		public static async Task Main(string[] args)
 		{
 			await Host.CreateDefaultBuilder(args)
-				.UseConfiguration<HostConfiguration>()
 				.ConfigureServices(s => s.AddHostedService<HostedService>())
+				.ConfigureServices(
+					(context, services) => services.AddConfiguration<HostConfiguration>(context.Configuration))
 				.RunConsoleAsync();
 		}
 	}
