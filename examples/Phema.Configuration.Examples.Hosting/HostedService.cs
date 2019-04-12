@@ -14,7 +14,7 @@ namespace Phema.Configuration.Examples.Hosting
 		{
 			this.configuration = configuration.Value;
 		}
-		
+
 		public Task StartAsync(CancellationToken cancellationToken)
 		{
 			return Console.Out.WriteLineAsync($"Hello from {configuration.App}!");

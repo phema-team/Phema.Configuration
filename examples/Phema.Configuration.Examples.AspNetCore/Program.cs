@@ -10,8 +10,10 @@ namespace Phema.Configuration.Examples.AspNetCore
 			CreateHostBuilder(args).Build().Run();
 		}
 
-		public static IHostBuilder CreateHostBuilder(string[] args) =>
-			Host.CreateDefaultBuilder(args)
+		public static IHostBuilder CreateHostBuilder(string[] args)
+		{
+			return Host.CreateDefaultBuilder(args)
 				.ConfigureWebHostDefaults(builder => builder.UseStartup<Startup>());
+		}
 	}
 }

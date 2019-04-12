@@ -21,12 +21,9 @@ namespace Phema.Configuration.Tests
 				.ConfigureAppConfiguration((c, b) =>
 					b.AddInMemoryCollection(new Dictionary<string, string>
 					{
-						["Name"] = "Sarah",
+						["Name"] = "Sarah"
 					}))
-				.ConfigureServices((context, services) =>
-				{
-					services.AddConfiguration<Configuration>(context.Configuration);
-				})
+				.ConfigureServices((context, services) => { services.AddConfiguration<Configuration>(context.Configuration); })
 				.ConfigureServices(services => services.Configure<Configuration>(c => c.Name = "John"))
 				.Build();
 
@@ -43,7 +40,7 @@ namespace Phema.Configuration.Tests
 				.ConfigureAppConfiguration((c, b) =>
 					b.AddInMemoryCollection(new Dictionary<string, string>
 					{
-						["Name"] = "Sarah",
+						["Name"] = "Sarah"
 					}))
 				.ConfigureServices((context, services) => services.AddConfiguration<Configuration>(context.Configuration))
 				.Build();

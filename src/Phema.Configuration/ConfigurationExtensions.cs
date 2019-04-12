@@ -1,18 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Collections.Generic;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 
 namespace Phema.Configuration
 {
 	public static class ConfigurationExtensions
 	{
 		/// <summary>
-		/// Add all options in configuration tree and return <see cref="TConfiguration"/>
+		///   Add all options in configuration tree and return <see cref="TConfiguration" />
 		/// </summary>
 		public static TConfiguration AddConfiguration<TConfiguration>(
 			this IServiceCollection services,
@@ -33,9 +33,7 @@ namespace Phema.Configuration
 			RegisterConfigureOptions(services, configuration, binder, type);
 
 			foreach (var (name, property) in GetInnerConfigurationProperties(type))
-			{
 				RegisterRecursive(services, configuration.GetSection(name), binder, property);
-			}
 		}
 
 		private static void RegisterConfigureOptions(

@@ -7,8 +7,8 @@ namespace Phema.Configuration
 	public class ConfigurationConfigureOptions<TOptions> : IConfigureOptions<TOptions>
 		where TOptions : class
 	{
-		private readonly IConfiguration configuration;
 		private readonly Action<BinderOptions> binder;
+		private readonly IConfiguration configuration;
 
 		public ConfigurationConfigureOptions(IConfiguration configuration, Action<BinderOptions> binder)
 		{

@@ -18,26 +18,26 @@ namespace Phema.Configuration.Tests
 		public NoneConfiguration None { get; set; }
 
 		public string Name { get; set; }
-		
+
 		public int Age { get; set; }
 	}
-	
+
 	[Configuration]
 	public class ChildConfiguration
 	{
-		public string Name { get; set; }  
+		public string Name { get; set; }
 	}
-	
+
 	public class PropertyConfiguration
 	{
 		public int Age { get; set; }
 	}
-	
+
 	public class NoneConfiguration
 	{
 		public string Address { get; set; }
 	}
-	
+
 	public class ConfigurationTests
 	{
 		[Fact]
@@ -46,13 +46,13 @@ namespace Phema.Configuration.Tests
 			var host = new HostBuilder()
 				.ConfigureAppConfiguration((c, b) =>
 					b.AddInMemoryCollection(new Dictionary<string, string>
-						{
-							["Name"] = "RootName",
-							["Age"] = "10",
-							["Child:Name"] = "Test",
-							["Property:Age"] = "12",
-							["None:Address"] = "Address"
-						}))
+					{
+						["Name"] = "RootName",
+						["Age"] = "10",
+						["Child:Name"] = "Test",
+						["Property:Age"] = "12",
+						["None:Address"] = "Address"
+					}))
 				.ConfigureServices((context, services) =>
 					services.AddConfiguration<RootConfiguration>(context.Configuration))
 				.Build();
@@ -61,22 +61,22 @@ namespace Phema.Configuration.Tests
 			var child = host.Services.GetRequiredService<IOptions<ChildConfiguration>>().Value;
 			var property = host.Services.GetRequiredService<IOptions<PropertyConfiguration>>().Value;
 			var non = host.Services.GetService<IOptions<NoneConfiguration>>().Value;
-			
+
 			Assert.NotNull(root);
 			Assert.NotNull(child);
 			Assert.NotNull(property);
 			Assert.NotNull(non);
-			
+
 			Assert.Equal("RootName", root.Name);
 			Assert.Equal(10, root.Age);
-			
+
 			Assert.Equal("Test", child.Name);
-			
+
 			Assert.Equal(12, property.Age);
-			
+
 			Assert.NotNull(root.None);
 			Assert.Equal("Address", root.None.Address);
-			
+
 			Assert.Null(non.Address);
 		}
 	}
