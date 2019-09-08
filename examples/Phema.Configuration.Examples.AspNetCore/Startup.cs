@@ -22,19 +22,19 @@ namespace Phema.Configuration.Examples.AspNetCore
 			// Use for setup connection strings, credentials, etc.
 		}
 
-		public void Configure(IApplicationBuilder app)
+		public void Configure(IApplicationBuilder app/*, IOptions<WebConfiguration> configuration */)
 		{
 			// Resolve once
-			// var configuration = app.ApplicationServices.GetRequiredService<IOptions<WebConfiguration>>().Value;
+			// var configuration = app.ApplicationServices.GetRequiredService<>().Value;
 
-			app.UseRouting(routes =>
-				routes.MapGet("/", async context =>
-				{
-					// Resolve each request
-					var configuration = context.RequestServices.GetRequiredService<IOptions<WebConfiguration>>().Value;
+			app.UseRouting();
+			app.UseEndpoints(endpoints => endpoints.MapGet("/", async context =>
+			{
+				// Resolve each request
+				var configuration = context.RequestServices.GetRequiredService<IOptions<WebConfiguration>>().Value;
 
-					await context.Response.WriteAsync($"Hello from {configuration.App}!");
-				}));
+				await context.Response.WriteAsync($"Hello from {configuration.App}!");
+			}));
 		}
 	}
 }
