@@ -4,6 +4,12 @@
 
 C# strongly typed `IConfiguration` wrapper
 
+## Installation
+
+```bash
+$> dotnet add package Phema.Configuration
+```
+
 ## Usage (or check for [examples](https://github.com/phema-team/Phema.Configuration/tree/master/examples))
 
 ```csharp

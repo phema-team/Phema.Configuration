@@ -19,31 +19,31 @@ namespace Phema.Configuration
 			IConfiguration configuration,
 			Action<BinderOptions> binder = null)
 		{
-			RegisterRecursive(services, configuration, binder, typeof(TConfiguration));
+			AddConfigurationRecursive(services, configuration, binder, typeof(TConfiguration));
 
 			return configuration.Get<TConfiguration>();
 		}
 
-		private static void RegisterRecursive(
+		private static void AddConfigurationRecursive(
 			IServiceCollection services,
 			IConfiguration configuration,
 			Action<BinderOptions> binder,
 			Type type)
 		{
-			RegisterConfigureOptions(services, configuration, binder, type);
+			AddConfigureOptions(services, configuration, binder, type);
 
 			foreach (var (name, property) in GetInnerConfigurationProperties(type))
-				RegisterRecursive(services, configuration.GetSection(name), binder, property);
+				AddConfigurationRecursive(services, configuration.GetSection(name), binder, property);
 		}
 
-		private static void RegisterConfigureOptions(
+		private static void AddConfigureOptions(
 			IServiceCollection services,
 			IConfiguration configuration,
 			Action<BinderOptions> binder,
-			Type type)
+			Type property)
 		{
-			var serviceType = typeof(IConfigureOptions<>).MakeGenericType(type);
-			var optionsType = typeof(ConfigurationConfigureOptions<>).MakeGenericType(type);
+			var serviceType = typeof(IConfigureOptions<>).MakeGenericType(property);
+			var optionsType = typeof(ConfigurationConfigureOptions<>).MakeGenericType(property);
 
 			var configureOptions = Activator.CreateInstance(optionsType, configuration, binder);
 

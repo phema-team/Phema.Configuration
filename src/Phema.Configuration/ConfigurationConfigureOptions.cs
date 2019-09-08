@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 
 namespace Phema.Configuration
 {
-	public class ConfigurationConfigureOptions<TOptions> : IConfigureOptions<TOptions>
+	internal sealed class ConfigurationConfigureOptions<TOptions> : IConfigureOptions<TOptions>
 		where TOptions : class
 	{
 		private readonly Action<BinderOptions> binder;
